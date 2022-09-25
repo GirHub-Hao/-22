@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面缓动回到顶部</title>
+</head>
+<body>
+    <button>回到顶部</button>
+</body>
+
+<script>
+let btn = document.querySelector('button');
+let h = document.documentElement.clientHeight || document.body.clientHeight;
+// 超过一屏高度，按钮才显示
+window.onscroll = function(){
+let t = document.documentElement.scrollTop;//卷曲的高度
+if(t > h){
+btn.style.display = 'block'
+}else{
+btn.style.display = 'none'
+}
+}
+
+
+btn.onclick = function(){
+// 1000ms   1000/10 = 100次
+// let t = document.documentElement.scrollTop; 距离
+// t/100 不称
+if(this.isGoing)return;
+this.isGoing = true;
+let t = document.documentElement.scrollTop;
+let step = t/100;
+let timer = setInterval(() => {
+t -= step;
+if(t < 0){
+  t = 0;
+  clearInterval(timer);
+  this.isGoing = false;
+}
+document.documentElement.scrollTop = t;
+}, 10);
+}
+</script>
+
+</html>
